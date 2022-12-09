@@ -1,25 +1,24 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import TheSidebar from "./TheSidebar";
+import TheHeader from "./TheHeader";
+import TheMain from "./TheMain";
+import TheRegistration from "./TheRegistration";
+import TheSidebarOverlay from "./TheSidebarOverlay";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+const App = () => {
+    return (
+        <>
+            <div className="flex flex-grow overflow-auto">
+                <TheSidebar/>
+                <TheSidebarOverlay/>
+                <div className="flex-1 overflow-auto">
+                    <TheHeader/>
+                    <TheMain/>
+                </div>
+            </div>
+            <TheRegistration/>
+        </>
+    )
 }
 
 export default App;
