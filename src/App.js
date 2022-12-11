@@ -1,9 +1,10 @@
 import React from 'react';
-import TheSidebar from "./TheSidebar";
-import TheHeader from "./TheHeader";
-import TheMain from "./TheMain";
-import TheRegistration from "./TheRegistration";
-import TheSidebarOverlay from "./TheSidebarOverlay";
+import TheSidebar from "./components/TheSidebar";
+import TheSidebarOverlay from "./components/TheSidebarOverlay";
+import TheHeader from "./components/TheHeader";
+import TheMain from "./components/TheMain";
+import TheRegistration from "./components/TheRegistration";
+
 
 const App = () => {
     return (
