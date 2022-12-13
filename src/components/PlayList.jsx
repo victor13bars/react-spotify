@@ -15,7 +15,7 @@ const PlayList = () => {
             </div>
             <PlayListTitle/>
             <PlayListDescription/>
-            {/*<PlayListContextMenu/>*/}
+            <PlayListContextMenu/>
         </a>
     );
 };
