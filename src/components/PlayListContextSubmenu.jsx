@@ -1,22 +1,14 @@
 import React from 'react';
-import PlayListContextItem from "./PlayListContextItem";
+import PlayListContextMenuItem from "./PlayListContextMenuItem";
 
-const subMenuItems = [
-    {
-        label: 'Copy link to playlist'
-    },
-    {
-        label: 'Embed playlist'
-    }
-]
 
-const PlayListContextSubmenu = () => {
+const PlayListContextSubmenu = ({menuItems}) => {
     return (
         <ul className="absolute top-0 left-full bg-[#282828] text-[#eaeaea] text-sm p-1 rounded shadow-xl cursor-default">
-            {subMenuItems.map(({label}) =>
-                <PlayListContextItem key={label}>
+            {menuItems.map(({label}) =>
+                <PlayListContextMenuItem key={label}>
                     {label}
-                </PlayListContextItem>
+                </PlayListContextMenuItem>
             )}
         </ul>
     );
