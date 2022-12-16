@@ -1,6 +1,12 @@
 import React from 'react';
 import PlayList from "./PlayList";
 
+const playList = {
+    title: "Playlist title",
+    description: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Vitae, odit.",
+    coverUrl: "https://fakeimg.pl/600/7f1d1d/fff?text=Cover&font=lobster"
+}
+
 const TheMain = () => {
     return (
         <main className="text-white relative">
@@ -19,7 +25,10 @@ const TheMain = () => {
                     </div>
                     <div
                         className="grid sm:grid-cols-playlists-mobile md:grid-cols-playlists-tablet lg:grid-cols-playlists-desktop gap-5">
-                        <PlayList/>
+                        <PlayList
+                            {...playList}
+                            classes="relative p-4 rounded-md bg-[#181818] hover:bg-[#272727] duration-200 group"
+                        />
                         <a href="#"
                            className="p-4 rounded-md bg-[#181818] hover:bg-[#272727] duration-200 group hidden sm:block">
                             <div className="relative">
