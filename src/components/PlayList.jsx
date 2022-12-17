@@ -35,6 +35,9 @@ const PlayList = ({coverUrl, title, description, classes}) => {
         event.preventDefault()
         setIsContextMenuOpen(true)
     }
+    const closeContextMenu = (event) => {
+        setIsContextMenuOpen(false)
+    }
 
     return (
         <a
@@ -54,6 +57,7 @@ const PlayList = ({coverUrl, title, description, classes}) => {
                 <PlayListContextMenu
                     menuItems={menuItems}
                     classes="absolute top-9 left-9 bg-[#282828] text-[#eaeaea] text-sm divide-y divide-[#3e3e3e] p-1 rounded shadow-xl cursor-default whitespace-nowrap z-10"
+                    onClose={closeContextMenu}
                 />
             }
         </a>
