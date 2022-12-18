@@ -1,15 +1,13 @@
-import React, {useEffect, useRef} from 'react';
+import React, {useEffect} from 'react';
 import PlayListContextMenuItem from "./PlayListContextMenuItem";
 
-const PlayListContextMenu = ({classes, menuItems, onClose: handleClose}) => {
-
-    const menuRef = useRef(null)
+const PlayListContextMenu = ({classes, menuItems, onClose: handleClose}, ref) => {
 
     useEffect(() => {
         if (!handleClose) return
 
         const handleClickAway = (event) => {
-            if (!menuRef.current.contains(event.target)) {
+            if (!ref.current.contains(event.target)) {
                 handleClose()
             }
         }
@@ -30,7 +28,7 @@ const PlayListContextMenu = ({classes, menuItems, onClose: handleClose}) => {
     })
 
     return (
-        <ul ref={menuRef} className={classes}>
+        <ul ref={ref} className={classes}>
             {menuItems.map(({label, subMenuItems}) =>
                 <PlayListContextMenuItem key={label} subMenuItems={subMenuItems}>
                     {label}
@@ -40,4 +38,4 @@ const PlayListContextMenu = ({classes, menuItems, onClose: handleClose}) => {
     );
 };
 
-export default PlayListContextMenu;
+export default React.forwardRef(PlayListContextMenu);

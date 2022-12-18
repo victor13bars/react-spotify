@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import PlayListContextMenu from "./PlayListContextMenu";
 import PlayListCover from "./PlayListCover";
 import PlayListButtonPlay from "./PlayListButtonPlay";
@@ -27,20 +27,34 @@ const menuItems = [
         label: 'Open in Desktop app'
     }
 ]
+const clickPosition = {x: null, y: null}
 
 const PlayList = ({coverUrl, title, description, classes}) => {
 
     const [isContextMenuOpen, setIsContextMenuOpen] = useState(false)
+    const contextMenuRef = useRef(null)
     const bgClasses = isContextMenuOpen
         ? 'bg-[#272727]'
         : 'bg-[#181818] hover:bg-[#272727]'
     const openContextMenu = (event) => {
         event.preventDefault()
+        clickPosition.x = event.clientX
+        clickPosition.y = event.clientY
         setIsContextMenuOpen(true)
     }
-    const closeContextMenu = (event) => {
+    const closeContextMenu = () => {
         setIsContextMenuOpen(false)
     }
+    const updateContextMenuPosition = () => {
+        contextMenuRef.current.style.top = `${clickPosition.y}px`
+        contextMenuRef.current.style.left = `${clickPosition.x}px`
+    }
+
+    useEffect(() => {
+        if (isContextMenuOpen) {
+            updateContextMenuPosition()
+        }
+    })
 
     return (
         <a
@@ -59,8 +73,9 @@ const PlayList = ({coverUrl, title, description, classes}) => {
                 isContextMenuOpen
                 &&
                 <PlayListContextMenu
+                    ref={contextMenuRef}
                     menuItems={menuItems}
-                    classes="absolute top-9 left-9 bg-[#282828] text-[#eaeaea] text-sm divide-y divide-[#3e3e3e] p-1 rounded shadow-xl cursor-default whitespace-nowrap z-10"
+                    classes="fixed bg-[#282828] text-[#eaeaea] text-sm divide-y divide-[#3e3e3e] p-1 rounded shadow-xl cursor-default whitespace-nowrap z-10"
                     onClose={closeContextMenu}
                 />
             }
