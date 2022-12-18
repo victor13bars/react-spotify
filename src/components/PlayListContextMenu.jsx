@@ -6,6 +6,7 @@ const PlayListContextMenu = ({classes, menuItems, onClose: handleClose}) => {
     const menuRef = useRef(null)
 
     useEffect(() => {
+        if (!handleClose) return
 
         const handleClickAway = (event) => {
             if (!menuRef.current.contains(event.target)) {
@@ -13,10 +14,18 @@ const PlayListContextMenu = ({classes, menuItems, onClose: handleClose}) => {
             }
         }
 
+        const handleEsc = (event) => {
+            if (event.keyCode === 27) {
+                handleClose()
+            }
+        }
+
         document.addEventListener('mousedown', handleClickAway)
+        document.addEventListener('keydown', handleEsc)
 
         return () => {
             document.removeEventListener('mousedown', handleClickAway)
+            document.removeEventListener('keydown', handleEsc)
         }
     })
 
