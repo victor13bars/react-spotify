@@ -44,6 +44,7 @@ const PlayList = ({coverUrl, title, description, classes}) => {
             href="/"
             className={`relative p-4 rounded-md bg-[#181818] hover:bg-[#272727] duration-200 group ${classes}`}
             onContextMenu={openContextMenu}
+            onClick={event => event.preventDefault()}
         >
             <div className="relative">
                 <PlayListCover url={coverUrl}/>
