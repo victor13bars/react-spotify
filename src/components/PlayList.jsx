@@ -4,6 +4,7 @@ import PlayListCover from "./PlayListCover";
 import PlayListButtonPlay from "./PlayListButtonPlay";
 import PlayListTitle from "./PlayListTitle";
 import PlayListDescription from "./PlayListDescription";
+import {useEffect} from "@types/react";
 
 const menuItems = [
     {
@@ -59,6 +60,31 @@ const PlayList = ({coverUrl, title, description, classes, toggleScrolling}) => {
         }
     })
 
+    useEffect(() => {
+
+        if (!isContextMenuOpen) return
+
+        const handleClickAway = (event) => {
+            if (!contextMenuRef.current.contains(event.target)) {
+                closeContextMenu()
+            }
+        }
+
+        const handleEsc = (event) => {
+            if (event.keyCode === 27) {
+                closeContextMenu()
+            }
+        }
+
+        document.addEventListener('mousedown', handleClickAway)
+        document.addEventListener('keydown', handleEsc)
+
+        return () => {
+            document.removeEventListener('mousedown', handleClickAway)
+            document.removeEventListener('keydown', handleEsc)
+        }
+    })
+
     return (
         <a
             href="/"
@@ -79,7 +105,6 @@ const PlayList = ({coverUrl, title, description, classes, toggleScrolling}) => {
                     ref={contextMenuRef}
                     menuItems={menuItems}
                     classes="fixed bg-[#282828] text-[#eaeaea] text-sm divide-y divide-[#3e3e3e] p-1 rounded shadow-xl cursor-default whitespace-nowrap z-10"
-                    onClose={closeContextMenu}
                 />
             }
         </a>
