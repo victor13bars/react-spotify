@@ -4,10 +4,15 @@ import PlayListContextMenu from "./PlayListContextMenu";
 
 const PlayListContextMenuItem = ({children: label, subMenuItems}) => {
 
-    const [isMenuOpen, setIsMenuOpen] = useState(false)
-    const [menuPositionXClass, setMenuPositionXClass] = useState('left-full')
-    const [menuPositionYClass, setMenuPositionYClass] = useState('top-0')
+    const [menuState, setMenuState] = useState({
+        isOpen: false,
+        positionClasses: ''
+    })
     const menuItemRef = useRef(null)
+
+    const getMenuPositionClasses = () => {
+        return `${getMenuPositionYClass()} ${getMenuPositionXClass()}`
+    }
 
     const getMenuPositionXClass = () => {
         const menuItem = menuItemRef.current
@@ -30,13 +35,17 @@ const PlayListContextMenuItem = ({children: label, subMenuItems}) => {
     }
 
     const openMenu = () => {
-        setIsMenuOpen(true)
-        setMenuPositionXClass(getMenuPositionXClass())
-        setMenuPositionYClass(getMenuPositionYClass())
+        setMenuState({
+            isOpen: true,
+            positionClasses: getMenuPositionClasses()
+        })
     }
 
     const closeMenu = () => {
-        setIsMenuOpen(false)
+        setMenuState({
+            isOpen: false,
+            positionClasses: ''
+        })
     }
 
     if (subMenuItems) {
@@ -51,10 +60,10 @@ const PlayListContextMenuItem = ({children: label, subMenuItems}) => {
                     className="w-full p-3 text-left hover:text-white hover:bg-[#3e3e3e] cursor-default flex justify-between items-center">
                     {label} <ChevronRightIcon className="h-4 w-4"/>
                 </button>
-                {isMenuOpen && (
+                {menuState.isOpen && (
                     <PlayListContextMenu
                         menuItems={subMenuItems}
-                        classes={`bg-[#282828] text-[#eaeaea] text-sm p-1 rounded shadow-xl cursor-default absolute ${menuPositionYClass} ${menuPositionXClass}`}
+                        classes={`bg-[#282828] text-[#eaeaea] text-sm p-1 rounded shadow-xl cursor-default absolute ${menuState.positionClasses}`}
                     />
                 )}
             </li>
