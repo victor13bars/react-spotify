@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {ChevronRightIcon} from '@heroicons/react/24/outline'
 import PlayListContextMenu from "./PlayListContextMenu";
 
@@ -9,6 +9,7 @@ const PlayListContextMenuItem = ({children: label, subMenuItems}) => {
         positionClasses: ''
     })
     const menuItemRef = useRef(null)
+    let closeMenuTimer = null
 
     const getMenuPositionClasses = () => {
         return `${getMenuPositionYClass()} ${getMenuPositionXClass()}`
@@ -35,6 +36,10 @@ const PlayListContextMenuItem = ({children: label, subMenuItems}) => {
     }
 
     const openMenu = () => {
+        if (closeMenuTimer) {
+            stopCloseMenuTimer()
+            return
+        }
         setMenuState({
             isOpen: true,
             positionClasses: getMenuPositionClasses()
@@ -48,12 +53,24 @@ const PlayListContextMenuItem = ({children: label, subMenuItems}) => {
         })
     }
 
+    const startCloseMenuTimer = () => {
+        closeMenuTimer = setTimeout(closeMenu, 100)
+    }
+
+    const stopCloseMenuTimer = () => {
+        clearTimeout(closeMenuTimer)
+    }
+
+    useEffect(() => {
+        return ()=> stopCloseMenuTimer()
+    })
+
     if (subMenuItems) {
         return (
             <li
                 className="relative"
                 onMouseEnter={openMenu}
-                onMouseLeave={closeMenu}
+                onMouseLeave={startCloseMenuTimer}
                 ref={menuItemRef}
             >
                 <button
