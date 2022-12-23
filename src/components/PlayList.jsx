@@ -5,34 +5,36 @@ import PlayListButtonPlay from "./PlayListButtonPlay";
 import PlayListTitle from "./PlayListTitle";
 import PlayListDescription from "./PlayListDescription";
 
-const menuItems = [
-    {
-        label: 'to Your Library'
-    },
-    {
-        label: 'Share',
-        subMenuItems: [
-            {
-                label: 'Copy link to playlist',
-                alternateLabel: 'Copy Spotify URI',
-                classes: 'min-w-[150px]'
-            },
-            {
-                label: 'Embed playlist'
-            }
-        ]
-    },
-    {
-        label: 'About recommendations'
-    },
-    {
-        label: 'Open in Desktop app'
-    }
-]
+const generateContextMenuItems = (isAlternate = false) => {
+    return [
+        {
+            label: 'to Your Library'
+        },
+        {
+            label: 'Share',
+            subMenuItems: [
+                {
+                    label: isAlternate ? 'Copy Spotify URI' : 'Copy link to playlist',
+                    classes: 'min-w-[150px]'
+                },
+                {
+                    label: 'Embed playlist'
+                }
+            ]
+        },
+        {
+            label: 'About recommendations'
+        },
+        {
+            label: 'Open in Desktop app'
+        }
+    ]
+}
 const clickPosition = {x: null, y: null}
 
 const PlayList = ({coverUrl, title, description, classes, toggleScrolling}) => {
 
+    const [contextMenuItems, setContextMenuItems] = useState(generateContextMenuItems())
     const [isContextMenuOpen, setIsContextMenuOpen] = useState(false)
     const contextMenuRef = useRef(null)
     const bgClasses = isContextMenuOpen
@@ -107,6 +109,27 @@ const PlayList = ({coverUrl, title, description, classes, toggleScrolling}) => {
         }
     })
 
+    useEffect(() => {
+
+        const handleAltKeydown = ({key}) => {
+
+            if (key === 'Alt' && isContextMenuOpen) setContextMenuItems(generateContextMenuItems(true))
+        }
+
+        const handleAltKeyup = ({key}) => {
+            if (key === 'Alt' && isContextMenuOpen) setContextMenuItems(generateContextMenuItems(false))
+        }
+
+        document.addEventListener('keydown', handleAltKeydown)
+        document.addEventListener('keyup', handleAltKeyup)
+
+        return () => {
+
+            document.removeEventListener('keydown', handleAltKeydown)
+            document.removeEventListener('keyup', handleAltKeyup)
+        }
+    })
+
     return (
         <a
             href="/"
@@ -125,7 +148,7 @@ const PlayList = ({coverUrl, title, description, classes, toggleScrolling}) => {
                 &&
                 <PlayListContextMenu
                     ref={contextMenuRef}
-                    menuItems={menuItems}
+                    menuItems={contextMenuItems}
                     classes="fixed bg-[#282828] text-[#eaeaea] text-sm divide-y divide-[#3e3e3e] p-1 rounded shadow-xl cursor-default whitespace-nowrap z-10"
                 />
             }

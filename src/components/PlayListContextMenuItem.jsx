@@ -1,36 +1,10 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 
 const PlayListContextMenuItem = ({
-                                     children: originalLabel,
+                                     children: label,
                                      onMouseEnter: closePreviousSubmenuIfOpen,
-                                     alternateLabel,
                                      classes
                                  }) => {
-
-    const [label, setLabel] = useState(originalLabel)
-
-    useEffect(() => {
-
-        if (!alternateLabel) return
-
-        const handleAltKeydown = ({key}) => {
-
-            if (key === 'Alt') setLabel(alternateLabel)
-        }
-
-        const handleAltKeyup = ({key}) => {
-            if (key === 'Alt') setLabel(originalLabel)
-        }
-
-        document.addEventListener('keydown', handleAltKeydown)
-        document.addEventListener('keyup', handleAltKeyup)
-
-        return () => {
-
-            document.removeEventListener('keydown', handleAltKeydown)
-            document.removeEventListener('keyup', handleAltKeyup)
-        }
-    })
 
     return (
         <li onMouseEnter={() => closePreviousSubmenuIfOpen()}>

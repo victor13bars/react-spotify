@@ -16,7 +16,7 @@ const PlayListContextMenu = ({classes, menuItems}, ref) => {
 
     return (
         <ul ref={ref} className={classes}>
-            {menuItems.map(({label, subMenuItems, alternateLabel, classes}) => {
+            {menuItems.map(({label, subMenuItems, classes}) => {
                 if (subMenuItems) {
                     return (
                         <PlayListContextMenuItemWithSubmenu
@@ -33,7 +33,6 @@ const PlayListContextMenu = ({classes, menuItems}, ref) => {
                     <PlayListContextMenuItem
                         key={label}
                         onMouseEnter={closePreviousSubmenuIfOpen}
-                        alternateLabel={alternateLabel}
                         classes={classes}
                     >
                         {label}
