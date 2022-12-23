@@ -12,6 +12,7 @@ const PlayListContextMenuItemWithSubmenu = ({
         isOpen: false,
         positionClasses: ''
     })
+    const bgClass = menuState.isOpen ? 'bg-[#3e3e3e]' : 'hover:bg-[#3e3e3e]'
     const menuItemRef = useRef(null)
     const closeMenuTimer = useRef(null)
 
@@ -75,13 +76,13 @@ const PlayListContextMenuItemWithSubmenu = ({
             ref={menuItemRef}
         >
             <button
-                className="w-full p-3 text-left hover:text-white hover:bg-[#3e3e3e] cursor-default flex justify-between items-center">
+                className={`w-full p-3 text-left hover:text-white cursor-default flex justify-between items-center ${bgClass}`}>
                 {label} <ChevronRightIcon className="h-4 w-4"/>
             </button>
             {menuState.isOpen && (
                 <PlayListContextMenu
                     menuItems={subMenuItems}
-                    classes={`bg-[#282828] text-[#eaeaea] text-sm p-1 rounded shadow-xl cursor-default absolute ${menuState.positionClasses}`}
+                    classes={`absolute ${menuState.positionClasses}`}
                 />
             )}
         </li>

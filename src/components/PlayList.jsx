@@ -94,8 +94,8 @@ const PlayList = ({coverUrl, title, description, classes, toggleScrolling}) => {
             }
         }
 
-        const handleEsc = (event) => {
-            if (event.keyCode === 27) {
+        const handleEsc = ({key}) => {
+            if (key === 'Escape') {
                 closeContextMenu()
             }
         }
@@ -149,7 +149,7 @@ const PlayList = ({coverUrl, title, description, classes, toggleScrolling}) => {
                 <PlayListContextMenu
                     ref={contextMenuRef}
                     menuItems={contextMenuItems}
-                    classes="fixed bg-[#282828] text-[#eaeaea] text-sm divide-y divide-[#3e3e3e] p-1 rounded shadow-xl cursor-default whitespace-nowrap z-10"
+                    classes="fixed divide-y divide-[#3e3e3e]"
                 />
             }
         </a>
