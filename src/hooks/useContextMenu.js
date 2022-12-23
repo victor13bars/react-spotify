@@ -1,39 +1,10 @@
 import {useEffect, useLayoutEffect, useRef, useState} from "react";
 
-const generateContextMenuItems = (isAlternate = false) => {
-    return [
-        {
-            label: 'to Your Library'
-        },
-        {
-            label: 'Share',
-            subMenuItems: [
-                {
-                    label: isAlternate ? 'Copy Spotify URI' : 'Copy link to playlist',
-                    classes: 'min-w-[150px]'
-                },
-                {
-                    label: 'Embed playlist'
-                }
-            ]
-        },
-        {
-            label: 'About recommendations'
-        },
-        {
-            label: 'Open in Desktop app'
-        }
-    ]
-}
 const clickPosition = {x: null, y: null}
 
-const useContextMenu = ({toggleScrolling}) => {
-    const [contextMenuItems, setContextMenuItems] = useState(generateContextMenuItems())
+const useContextMenu = () => {
     const [isContextMenuOpen, setIsContextMenuOpen] = useState(false)
     const contextMenuRef = useRef(null)
-    const bgClasses = isContextMenuOpen
-        ? 'bg-[#272727]'
-        : 'bg-[#181818] hover:bg-[#272727]'
     const openContextMenu = (event) => {
         event.preventDefault()
         clickPosition.x = event.clientX
@@ -70,9 +41,6 @@ const useContextMenu = ({toggleScrolling}) => {
     }
 
     useLayoutEffect(() => {
-
-        toggleScrolling(!isContextMenuOpen)
-
         if (isContextMenuOpen) {
             updateContextMenuPosition()
         }
@@ -82,8 +50,8 @@ const useContextMenu = ({toggleScrolling}) => {
 
         if (!isContextMenuOpen) return
 
-        const handleClickAway = (event) => {
-            if (!contextMenuRef.current.contains(event.target)) {
+        const handleClickAway = ({target}) => {
+            if (!contextMenuRef.current.contains(target)) {
                 closeContextMenu()
             }
         }
@@ -103,33 +71,10 @@ const useContextMenu = ({toggleScrolling}) => {
         }
     })
 
-    useEffect(() => {
-
-        const handleAltKeydown = ({key}) => {
-
-            if (key === 'Alt' && isContextMenuOpen) setContextMenuItems(generateContextMenuItems(true))
-        }
-
-        const handleAltKeyup = ({key}) => {
-            if (key === 'Alt' && isContextMenuOpen) setContextMenuItems(generateContextMenuItems(false))
-        }
-
-        document.addEventListener('keydown', handleAltKeydown)
-        document.addEventListener('keyup', handleAltKeyup)
-
-        return () => {
-
-            document.removeEventListener('keydown', handleAltKeydown)
-            document.removeEventListener('keyup', handleAltKeyup)
-        }
-    })
-
     return {
-        bgClasses,
         openContextMenu,
         isContextMenuOpen,
-        contextMenuRef,
-        contextMenuItems
+        contextMenuRef
     }
 }
 
