@@ -13,7 +13,9 @@ const menuItems = [
         label: 'Share',
         subMenuItems: [
             {
-                label: 'Copy link to playlist'
+                label: 'Copy link to playlist',
+                alternateLabel: 'Copy Spotify URI',
+                classes: 'min-w-[150px]'
             },
             {
                 label: 'Embed playlist'

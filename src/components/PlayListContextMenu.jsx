@@ -4,19 +4,38 @@ import PlayListContextMenuItemWithSubmenu from "./PlayListContextMenuItemWithSub
 
 const PlayListContextMenu = ({classes, menuItems}, ref) => {
 
+    let closePreviousSubmenu = null
+
+    const closePreviousSubmenuIfOpen = (closeSubmenu = null) => {
+        if (closePreviousSubmenu) {
+            closePreviousSubmenu()
+        }
+
+        closePreviousSubmenu = closeSubmenu
+    }
+
     return (
         <ul ref={ref} className={classes}>
-            {menuItems.map(({label, subMenuItems}) => {
+            {menuItems.map(({label, subMenuItems, alternateLabel, classes}) => {
                 if (subMenuItems) {
                     return (
-                        <PlayListContextMenuItemWithSubmenu key={label} subMenuItems={subMenuItems}>
+                        <PlayListContextMenuItemWithSubmenu
+                            key={label}
+                            subMenuItems={subMenuItems}
+                            onMouseEnter={closePreviousSubmenuIfOpen}
+                        >
                             {label}
                         </PlayListContextMenuItemWithSubmenu>
                     )
                 }
 
                 return (
-                    <PlayListContextMenuItem key={label}>
+                    <PlayListContextMenuItem
+                        key={label}
+                        onMouseEnter={closePreviousSubmenuIfOpen}
+                        alternateLabel={alternateLabel}
+                        classes={classes}
+                    >
                         {label}
                     </PlayListContextMenuItem>
                 )

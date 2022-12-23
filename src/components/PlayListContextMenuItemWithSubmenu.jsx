@@ -2,14 +2,18 @@ import React, {useEffect, useRef, useState} from 'react';
 import {ChevronRightIcon} from '@heroicons/react/24/outline'
 import PlayListContextMenu from "./PlayListContextMenu";
 
-const PlayListContextMenuItemWithSubmenu = ({children: label, subMenuItems}) => {
+const PlayListContextMenuItemWithSubmenu = ({
+                                                children: label,
+                                                subMenuItems,
+                                                onMouseEnter: closePreviousSubmenuIfOpen
+                                            }) => {
 
     const [menuState, setMenuState] = useState({
         isOpen: false,
         positionClasses: ''
     })
     const menuItemRef = useRef(null)
-    let closeMenuTimer = null
+    const closeMenuTimer = useRef(null)
 
     const getMenuPositionClasses = () => {
         return `${getMenuPositionYClass()} ${getMenuPositionXClass()}`
@@ -36,10 +40,9 @@ const PlayListContextMenuItemWithSubmenu = ({children: label, subMenuItems}) => 
     }
 
     const openMenu = () => {
-        if (closeMenuTimer) {
-            stopCloseMenuTimer()
-            return
-        }
+
+        closePreviousSubmenuIfOpen(startCloseMenuTimer)
+
         setMenuState({
             isOpen: true,
             positionClasses: getMenuPositionClasses()
@@ -54,11 +57,11 @@ const PlayListContextMenuItemWithSubmenu = ({children: label, subMenuItems}) => 
     }
 
     const startCloseMenuTimer = () => {
-        closeMenuTimer = setTimeout(closeMenu, 100)
+        closeMenuTimer.current = setTimeout(closeMenu, 100)
     }
 
     const stopCloseMenuTimer = () => {
-        clearTimeout(closeMenuTimer)
+        clearTimeout(closeMenuTimer.current)
     }
 
     useEffect(() => {
@@ -69,7 +72,6 @@ const PlayListContextMenuItemWithSubmenu = ({children: label, subMenuItems}) => 
         <li
             className="relative"
             onMouseEnter={openMenu}
-            onMouseLeave={startCloseMenuTimer}
             ref={menuItemRef}
         >
             <button
