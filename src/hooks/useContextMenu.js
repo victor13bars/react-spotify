@@ -2,36 +2,36 @@ import {useEffect, useRef, useState} from "react";
 import useContextMenuPosition from "./useContextMenuPosition";
 
 
-const useContextMenu = () => {
+const useContextMenu = (items) => {
 
-    const [isContextMenuOpen, setIsContextMenuOpen] = useState(false)
-    const contextMenuRef = useRef(null)
-    const updateClickCoordinates = useContextMenuPosition(contextMenuRef, isContextMenuOpen)
+    const [isOpen, setIsOpen] = useState(false)
+    const ref = useRef(null)
+    const move = useContextMenuPosition(ref, isOpen)
 
-    const openContextMenu = (event) => {
+    const open = (event) => {
         event.preventDefault()
 
-        updateClickCoordinates(event.clientX, event.clientY)
-        setIsContextMenuOpen(true)
+        move(event.clientX, event.clientY)
+        setIsOpen(true)
     }
 
-    const closeContextMenu = () => {
-        setIsContextMenuOpen(false)
+    const close = () => {
+        setIsOpen(false)
     }
 
     useEffect(() => {
 
-        if (!isContextMenuOpen) return
+        if (!isOpen) return
 
         const handleClickAway = ({target}) => {
-            if (!contextMenuRef.current.contains(target)) {
-                closeContextMenu()
+            if (!ref.current.contains(target)) {
+                close()
             }
         }
 
         const handleEsc = ({key}) => {
             if (key === 'Escape') {
-                closeContextMenu()
+                close()
             }
         }
 
@@ -45,9 +45,10 @@ const useContextMenu = () => {
     })
 
     return {
-        openContextMenu,
-        isContextMenuOpen,
-        contextMenuRef
+        open,
+        isOpen,
+        ref,
+        items
     }
 }
 
