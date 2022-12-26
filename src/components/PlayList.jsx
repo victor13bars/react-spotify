@@ -5,6 +5,8 @@ import PlayListButtonPlay from "./PlayListButtonPlay";
 import PlayListTitle from "./PlayListTitle";
 import PlayListDescription from "./PlayListDescription";
 import useMenu from "../hooks/useContextMenu";
+import {logDOM} from "@testing-library/react";
+import BaseToast from "./BaseToast";
 
 const generateMenuItems = (isAlternate = false) => {
     return [
@@ -16,7 +18,8 @@ const generateMenuItems = (isAlternate = false) => {
             subMenuItems: [
                 {
                     label: isAlternate ? 'Copy Spotify URI' : 'Copy link to playlist',
-                    classes: 'min-w-[150px]'
+                    classes: 'min-w-[150px]',
+                    action: () => console.log('Hi')
                 },
                 {
                     label: 'Embed playlist'
@@ -66,28 +69,31 @@ const PlayList = ({coverUrl, title, description, classes, toggleScrolling}) => {
     })
 
     return (
-        <a
-            href="/"
-            className={`relative p-4 rounded-md duration-200 group ${classes} ${bgClasses}`}
-            onContextMenu={menu.open}
-            onClick={event => event.preventDefault()}
-        >
-            <div className="relative">
-                <PlayListCover url={coverUrl}/>
-                <PlayListButtonPlay/>
-            </div>
-            <PlayListTitle title={title}/>
-            <PlayListDescription description={description}/>
-            {
-                menu.isOpen
-                &&
-                <PlayListContextMenu
-                    ref={menu.ref}
-                    menuItems={menu.items}
-                    classes="fixed divide-y divide-[#3e3e3e]"
-                />
-            }
-        </a>
+        <>
+            <a
+                href="/"
+                className={`relative p-4 rounded-md duration-200 group ${classes} ${bgClasses}`}
+                onContextMenu={menu.open}
+                onClick={event => event.preventDefault()}
+            >
+                <div className="relative">
+                    <PlayListCover url={coverUrl}/>
+                    <PlayListButtonPlay/>
+                </div>
+                <PlayListTitle title={title}/>
+                <PlayListDescription description={description}/>
+                {
+                    menu.isOpen
+                    &&
+                    <PlayListContextMenu
+                        ref={menu.ref}
+                        menuItems={menu.items}
+                        classes="fixed divide-y divide-[#3e3e3e]"
+                    />
+                }
+            </a>
+            <BaseToast/>
+        </>
     );
 };
 
