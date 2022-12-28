@@ -5,37 +5,53 @@ import PlayListButtonPlay from "./PlayListButtonPlay";
 import PlayListTitle from "./PlayListTitle";
 import PlayListDescription from "./PlayListDescription";
 import useMenu from "../hooks/useContextMenu";
-import {logDOM} from "@testing-library/react";
 import BaseToast from "./BaseToast";
 
-const generateMenuItems = (isAlternate = false) => {
-    return [
-        {
-            label: 'to Your Library'
-        },
-        {
-            label: 'Share',
-            subMenuItems: [
-                {
-                    label: isAlternate ? 'Copy Spotify URI' : 'Copy link to playlist',
-                    classes: 'min-w-[150px]',
-                    action: () => console.log('Hi')
-                },
-                {
-                    label: 'Embed playlist'
-                }
-            ]
-        },
-        {
-            label: 'About recommendations'
-        },
-        {
-            label: 'Open in Desktop app'
-        }
-    ]
-}
-
 const PlayList = ({coverUrl, title, description, classes, toggleScrolling}) => {
+
+    const [isToastShown, setIsToastShown] = useState(false)
+    const closeToastTimer = useRef()
+
+    const generateMenuItems = (isAlternate = false) => {
+        return [
+            {
+                label: 'to Your Library'
+            },
+            {
+                label: 'Share',
+                subMenuItems: [
+                    {
+                        label: isAlternate ? 'Copy Spotify URI' : 'Copy link to playlist',
+                        classes: 'min-w-[150px]',
+                        action: () => {
+                            navigator.clipboard.writeText(title).then(() => {
+                                showToast()
+                                menu.close()
+                            })
+                        }
+                    },
+                    {
+                        label: 'Embed playlist'
+                    }
+                ]
+            },
+            {
+                label: 'About recommendations'
+            },
+            {
+                label: 'Open in Desktop app'
+            }
+        ]
+    }
+
+    const showToast = () => {
+        setIsToastShown(true)
+        closeToastTimer.current = setTimeout(hideToast, 3000)
+    }
+
+    const hideToast = () => {
+        setIsToastShown(false)
+    }
 
     const [menuItems, setMenuItems] = useState(generateMenuItems)
     const menu = useMenu(menuItems)
@@ -92,7 +108,7 @@ const PlayList = ({coverUrl, title, description, classes, toggleScrolling}) => {
                     />
                 }
             </a>
-            <BaseToast/>
+            {isToastShown && <BaseToast> Link copied to clipboard</BaseToast>}
         </>
     );
 };
