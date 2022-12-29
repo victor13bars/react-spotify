@@ -9,7 +9,7 @@ import BaseToast from "./components/BaseToast";
 const App = () => {
 
     const [toastMessage, setToastMessage] = useState('')
-    const [isToastShown, setIsToastShown] = useState(false)
+    const toastRef = useRef()
     const closeToastTimer = useRef()
     const contentWrapperRef = useRef(null)
     let isScrollingEnabled = true
@@ -26,13 +26,10 @@ const App = () => {
     }
 
     const showToast = (message) => {
+        clearTimeout(closeToastTimer.current)
         setToastMessage(message)
-        setIsToastShown(true)
-        closeToastTimer.current = setTimeout(hideToast, 3000)
-    }
-
-    const hideToast = () => {
-        setIsToastShown(false)
+        toastRef.current.show()
+        closeToastTimer.current = setTimeout(toastRef.current.hide, 3000)
     }
 
     useEffect(() => {
@@ -56,7 +53,9 @@ const App = () => {
                 </div>
             </div>
             <TheRegistration/>
-            {isToastShown && <BaseToast>{toastMessage}</BaseToast>}
+            <BaseToast ref={toastRef}>
+                {toastMessage}
+            </BaseToast>
         </>
     )
 }
