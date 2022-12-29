@@ -1,16 +1,12 @@
-import React, {useEffect, useLayoutEffect, useRef, useState} from 'react';
+import React, {useEffect, useLayoutEffect, useState} from 'react';
 import PlayListContextMenu from "./PlayListContextMenu";
 import PlayListCover from "./PlayListCover";
 import PlayListButtonPlay from "./PlayListButtonPlay";
 import PlayListTitle from "./PlayListTitle";
 import PlayListDescription from "./PlayListDescription";
 import useMenu from "../hooks/useContextMenu";
-import BaseToast from "./BaseToast";
 
-const PlayList = ({coverUrl, title, description, classes, toggleScrolling}) => {
-
-    const [isToastShown, setIsToastShown] = useState(false)
-    const closeToastTimer = useRef()
+const PlayList = ({coverUrl, title, description, classes, toggleScrolling, showToast}) => {
 
     const generateMenuItems = (isAlternate = false) => {
         return [
@@ -25,7 +21,7 @@ const PlayList = ({coverUrl, title, description, classes, toggleScrolling}) => {
                         classes: 'min-w-[150px]',
                         action: () => {
                             navigator.clipboard.writeText(title).then(() => {
-                                showToast()
+                                showToast('Link copied to clipboard')
                                 menu.close()
                             })
                         }
@@ -44,15 +40,6 @@ const PlayList = ({coverUrl, title, description, classes, toggleScrolling}) => {
         ]
     }
 
-    const showToast = () => {
-        setIsToastShown(true)
-        closeToastTimer.current = setTimeout(hideToast, 3000)
-    }
-
-    const hideToast = () => {
-        setIsToastShown(false)
-    }
-
     const [menuItems, setMenuItems] = useState(generateMenuItems)
     const menu = useMenu(menuItems)
     const bgClasses = menu.isOpen
@@ -62,6 +49,7 @@ const PlayList = ({coverUrl, title, description, classes, toggleScrolling}) => {
     useLayoutEffect(() => {
         toggleScrolling(!menu.isOpen)
     })
+
     useEffect(() => {
 
         if (!menu.isOpen) return
@@ -85,31 +73,28 @@ const PlayList = ({coverUrl, title, description, classes, toggleScrolling}) => {
     })
 
     return (
-        <>
-            <a
-                href="/"
-                className={`relative p-4 rounded-md duration-200 group ${classes} ${bgClasses}`}
-                onContextMenu={menu.open}
-                onClick={event => event.preventDefault()}
-            >
-                <div className="relative">
-                    <PlayListCover url={coverUrl}/>
-                    <PlayListButtonPlay/>
-                </div>
-                <PlayListTitle title={title}/>
-                <PlayListDescription description={description}/>
-                {
-                    menu.isOpen
-                    &&
-                    <PlayListContextMenu
-                        ref={menu.ref}
-                        menuItems={menu.items}
-                        classes="fixed divide-y divide-[#3e3e3e]"
-                    />
-                }
-            </a>
-            {isToastShown && <BaseToast> Link copied to clipboard</BaseToast>}
-        </>
+        <a
+            href="/"
+            className={`relative p-4 rounded-md duration-200 group ${classes} ${bgClasses}`}
+            onContextMenu={menu.open}
+            onClick={event => event.preventDefault()}
+        >
+            <div className="relative">
+                <PlayListCover url={coverUrl}/>
+                <PlayListButtonPlay/>
+            </div>
+            <PlayListTitle title={title}/>
+            <PlayListDescription description={description}/>
+            {
+                menu.isOpen
+                &&
+                <PlayListContextMenu
+                    ref={menu.ref}
+                    menuItems={menu.items}
+                    classes="fixed divide-y divide-[#3e3e3e]"
+                />
+            }
+        </a>
     );
 };
 
