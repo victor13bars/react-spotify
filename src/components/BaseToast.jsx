@@ -1,15 +1,20 @@
 import React, {useImperativeHandle, useState} from 'react';
+import {useRef} from "react";
 
-const BaseToast = ({children: message}, ref) => {
+const BaseToast = (_, ref) => {
 
+    const [message, setMessage] = useState('')
+    const hideTimer = useRef()
     const [opacityClass, setOpacityClass] = useState('opacity-0')
 
-    useImperativeHandle(ref, () => {
-        return {
-            show: () => setOpacityClass('opacity-1'),
-            hide: () => setOpacityClass('opacity-0')
+    useImperativeHandle(ref, () => ({
+        show: (messsage) => {
+            clearTimeout(hideTimer.current)
+            setOpacityClass('opacity-1')
+            setMessage(messsage)
+            hideTimer.current = setTimeout(() => setOpacityClass('opacity-0'), 3000)
         }
-    })
+    }))
 
     return (
         <div
