@@ -5,6 +5,7 @@ import TheHeader from "./components/TheHeader";
 import TheMain from "./components/TheMain";
 import TheRegistration from "./components/TheRegistration";
 import BaseToast from "./components/BaseToast";
+import BasePopover from "./components/BasePopover";
 
 const App = () => {
 
@@ -51,6 +52,7 @@ const App = () => {
             </div>
             <TheRegistration/>
             <BaseToast ref={toastRef}/>
+            <BasePopover/>
         </>
     )
 }
