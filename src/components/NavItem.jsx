@@ -1,10 +1,21 @@
 import React from 'react';
 
-const NavItem = ({classes, icon, children: label}) => {
+const NavItem = ({classes, icon, children: label, onClick}) => {
+
+    const handleClick = (event) => {
+
+        if (!onClick) return
+
+        event.preventDefault()
+        onClick()
+
+    }
+
     return (
         <a
             href="/"
             className={classes}
+            onClick={handleClick}
         >
             {icon}
             <span className="ml-4 text-sm font-semibold">{label}</span>

@@ -9,6 +9,7 @@ import BasePopover from "./components/BasePopover";
 
 const App = () => {
 
+    const popoverRef = useRef()
     const toastRef = useRef()
 
     const contentWrapperRef = useRef(null)
@@ -27,7 +28,10 @@ const App = () => {
 
     const showToast = (message) => {
         toastRef.current.show(message)
+    }
 
+    const showPopover = () => {
+        popoverRef.current.show()
     }
 
     useEffect(() => {
@@ -40,7 +44,7 @@ const App = () => {
     return (
         <>
             <div className="flex grow overflow-auto">
-                <TheSidebar/>
+                <TheSidebar showPopover={showPopover}/>
                 <TheSidebarOverlay/>
                 <div className="flex-1 overflow-auto" ref={contentWrapperRef}>
                     <TheHeader/>
@@ -52,7 +56,7 @@ const App = () => {
             </div>
             <TheRegistration/>
             <BaseToast ref={toastRef}/>
-            <BasePopover/>
+            <BasePopover ref={popoverRef}/>
         </>
     )
 }
