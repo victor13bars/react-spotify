@@ -50,6 +50,7 @@ const App = () => {
                     <TheHeader/>
                     <TheMain
                         toggleScrolling={toggleScrolling}
+                        showPopover={showPopover}
                         showToast={showToast}
                     />
                 </div>

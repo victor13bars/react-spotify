@@ -5,7 +5,7 @@ import {useImperativeHandle} from "react";
 const BasePopover = (_, ref) => {
 
     const nodeRef = useRef()
-    const [classes, setClasses] = useState('opacity-0 pointer-events-none')
+    const [classes, setClasses] = useState('opacity-0 translate-x-1 pointer-events-none')
 
     const show = () => {
         setClasses('opacity-1')
@@ -32,7 +32,7 @@ const BasePopover = (_, ref) => {
         <div
             ref={nodeRef}
             className={`fixed top-[227px] left-[200px] z-30 bg-[#0e72ea] text-white tracking-wide
-             rounded-lg shadow-3xl p-4 min-w-[330px] transition duration-300 select-none ${classes}`}>
+             rounded-lg shadow-3xl p-4 min-w-[330px] transition duration-3000 select-none ${classes}`}>
             <h3 className="text-lg font-bold mb-2">Create a playlist</h3>
             <p className="text-xs">Log in to create and share playlist</p>
             <div className="mt-6 text-right">

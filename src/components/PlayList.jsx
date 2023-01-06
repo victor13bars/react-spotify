@@ -6,12 +6,24 @@ import PlayListTitle from "./PlayListTitle";
 import PlayListDescription from "./PlayListDescription";
 import useMenu from "../hooks/useContextMenu";
 
-const PlayList = ({coverUrl, title, description, classes, toggleScrolling, showToast}) => {
+const PlayList = ({
+                      coverUrl,
+                      title,
+                      description,
+                      classes,
+                      toggleScrolling,
+                      showToast,
+                      showPopover
+                  }) => {
 
     const generateMenuItems = (isAlternate = false) => {
         return [
             {
-                label: 'to Your Library'
+                label: 'to Your Library',
+                action: () => {
+                    menu.close()
+                    showPopover()
+                }
             },
             {
                 label: 'Share',
