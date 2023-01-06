@@ -1,5 +1,4 @@
-import React, {useImperativeHandle, useState} from 'react';
-import {useRef} from "react";
+import {useImperativeHandle, useState, useRef, forwardRef} from 'react';
 
 const BaseToast = (_, ref) => {
 
@@ -26,4 +25,4 @@ const BaseToast = (_, ref) => {
     );
 };
 
-export default React.forwardRef(BaseToast);
+export default forwardRef(BaseToast);

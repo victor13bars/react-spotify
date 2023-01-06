@@ -12,7 +12,7 @@ const App = () => {
     const popoverRef = useRef()
     const toastRef = useRef()
 
-    const contentWrapperRef = useRef(null)
+    const contentWrapperRef = useRef()
     let isScrollingEnabled = true
 
     const handleScrolling = (event) => {

@@ -2,16 +2,18 @@ import React, {forwardRef, useEffect, useRef, useState} from 'react';
 import BaseButton from "./BaseButton";
 import {useImperativeHandle} from "react";
 
+const HIDDEN_CLASSES = 'opacity-0 translate-x-1 pointer-events-none'
+
 const BasePopover = (_, ref) => {
 
     const nodeRef = useRef()
-    const [classes, setClasses] = useState('opacity-0 translate-x-1 pointer-events-none')
+    const [classes, setClasses] = useState(HIDDEN_CLASSES)
 
     const show = () => {
-        setClasses('opacity-1')
+        setClasses('')
     }
     const hide = () => {
-        setClasses('opacity-0 pointer-events-none')
+        setClasses(HIDDEN_CLASSES)
     }
 
     useEffect(() => {

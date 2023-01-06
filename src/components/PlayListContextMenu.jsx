@@ -1,4 +1,4 @@
-import React, {useRef} from 'react';
+import {useRef, forwardRef} from 'react';
 import PlayListContextMenuItem from "./PlayListContextMenuItem";
 import PlayListContextMenuItemWithSubmenu from "./PlayListContextMenuItemWithSubmenu";
 
@@ -47,4 +47,4 @@ const PlayListContextMenu = ({classes, menuItems}, ref) => {
     );
 };
 
-export default React.forwardRef(PlayListContextMenu);
+export default forwardRef(PlayListContextMenu);
