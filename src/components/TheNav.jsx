@@ -23,25 +23,41 @@ const TheNav = ({showPopover}) => {
         {
             label: 'Your Library',
             classes: `${navItemClasses} mb-6`,
-            icon: <ViewColumnsIcon className="h-6 w-6"/>
+            icon: <ViewColumnsIcon className="h-6 w-6"/>,
+            action: (target) => {
+                showPopover(
+                    'Enjoy Your Library',
+                    'Log in to see saved songs, podcasts,artists and playlists in Your Library',
+                    target
+                )
+            }
         },
 
         {
             label: 'Create Playlist',
             classes: navItemClasses,
             icon: <PlusCircleIcon className="h-6 w-6"/>,
-            action:showPopover
+            action: (target) => {
+                showPopover('Create a playlist', 'Log in to create and share playlist',target)
+            }
         },
         {
             label: 'Liked Songs',
             classes: navItemClasses,
-            icon: <HeartIcon className="h-6 w-6"/>
+            icon: <HeartIcon className="h-6 w-6"/>,
+            action: (target) => {
+                showPopover(
+                    'Enjoy your Liked Songs',
+                    "Log in to see all the songs you've liked in one easy playlist",
+                    target
+                )
+            }
         }
     ]
 
     return (
         <nav>
-            {navItems.map(({classes, icon, label,action}) =>
+            {navItems.map(({classes, icon, label, action}) =>
                 <NavItem
                     key={label}
                     onClick={action}

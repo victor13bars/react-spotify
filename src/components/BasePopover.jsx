@@ -8,12 +8,23 @@ const BasePopover = (_, ref) => {
 
     const nodeRef = useRef()
     const [classes, setClasses] = useState(HIDDEN_CLASSES)
+    const [title, setTitle] = useState('')
+    const [description, setDescription] = useState('')
 
-    const show = () => {
+    const show = (title, description, target) => {
+        moveTo(target)
+        setTitle(title)
+        setDescription(description)
         setClasses('')
     }
     const hide = () => {
         setClasses(HIDDEN_CLASSES)
+    }
+
+    const moveTo = (target) => {
+        const {top, right, height} = target.getBoundingClientRect()
+        nodeRef.current.style.top = `${top}px`
+        nodeRef.current.style.left = `${right}px`
     }
 
     useEffect(() => {
@@ -33,10 +44,10 @@ const BasePopover = (_, ref) => {
     return (
         <div
             ref={nodeRef}
-            className={`fixed top-[227px] left-[200px] z-30 bg-[#0e72ea] text-white tracking-wide
-             rounded-lg shadow-3xl p-4 min-w-[330px] transition duration-3000 select-none ${classes}`}>
-            <h3 className="text-lg font-bold mb-2">Create a playlist</h3>
-            <p className="text-xs">Log in to create and share playlist</p>
+            className={`fixed z-30 bg-[#0e72ea] text-white tracking-wide
+             rounded-lg shadow-3xl p-4 w-[330px] transition duration-3000 select-none ${classes}`}>
+            <h3 className="text-lg font-bold mb-2">{title}</h3>
+            <p className="text-xs">{description}</p>
             <div className="mt-6 text-right">
                 <BaseButton onClick={hide}>Not now</BaseButton>
                 <BaseButton primary>Log in</BaseButton>
