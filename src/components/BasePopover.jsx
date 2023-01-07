@@ -22,11 +22,15 @@ const BasePopover = (_, ref) => {
     }
 
     const moveTo = (target) => {
-        console.log(target)
-        // if (!target) return
-        const {top, right, height} = target.getBoundingClientRect()
-        nodeRef.current.style.top = `${top - (height / 3) * 2}px`
-        nodeRef.current.style.left = `${right + 30}px`
+        const offset = target
+        if (target instanceof Element) {
+            const {top, right, height} = target.getBoundingClientRect()
+            offset.top = top - (height / 3) * 2
+            offset.left = right + 30
+        }
+
+        nodeRef.current.style.top = `${offset.top}px`
+        nodeRef.current.style.left = `${offset.left}px`
     }
 
     useEffect(() => {

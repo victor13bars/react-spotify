@@ -38,7 +38,7 @@ const TheNav = ({showPopover}) => {
             classes: navItemClasses,
             icon: <PlusCircleIcon className="h-6 w-6"/>,
             action: (target) => {
-                showPopover('Create a playlist', 'Log in to create and share playlist',target)
+                showPopover('Create a playlist', 'Log in to create and share playlist', target)
             }
         },
         {
@@ -46,10 +46,12 @@ const TheNav = ({showPopover}) => {
             classes: navItemClasses,
             icon: <HeartIcon className="h-6 w-6"/>,
             action: (target) => {
+                const {top, right, height} = target.getBoundingClientRect()
+                const offset = {top: top - (height / 3) * 2, left: right + 30}
                 showPopover(
                     'Enjoy your Liked Songs',
                     "Log in to see all the songs you've liked in one easy playlist",
-                    target
+                    offset
                 )
             }
         }
