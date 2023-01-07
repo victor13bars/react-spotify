@@ -12,8 +12,7 @@ const PlayList = ({
                       description,
                       classes,
                       toggleScrolling,
-                      showToast,
-                      showPopover
+                      showToast
                   }) => {
 
     const generateMenuItems = (isAlternate = false) => {
@@ -22,7 +21,7 @@ const PlayList = ({
                 label: 'to Your Library',
                 action: () => {
                     menu.close()
-                    showPopover()
+                    document.querySelector('nav a:nth-child(4)').click()
                 }
             },
             {

@@ -3,62 +3,62 @@ import PlayList from "./PlayList";
 
 const playLists = [
     {
-        classes:'',
+        classes: '',
         title: "Playlist title 1",
         description: "Lorem, ipsum dolor sit amet consectetur adipisicing elit.",
         coverUrl: "https://fakeimg.pl/600/7f1d1d/fff?text=Cover&font=lobster"
     },
     {
-        classes:'hidden sm:block',
+        classes: 'hidden sm:block',
         title: "Playlist title 2",
         description: "Lorem, ipsum dolor sit amet consectetur adipisicing elit.",
         coverUrl: "https://fakeimg.pl/600/365314/fff?text=Cover&font=lobster"
     },
     {
-        classes:'hidden lg:block',
+        classes: 'hidden lg:block',
         title: "Playlist title 3",
         description: "Lorem, ipsum dolor sit amet consectetur adipisicing elit.",
         coverUrl: "https://fakeimg.pl/600/164e63/fff?text=Cover&font=lobster"
     },
     {
-        classes:'hidden xl:block',
+        classes: 'hidden xl:block',
         title: "Playlist title 4",
         description: "Lorem, ipsum dolor sit amet consectetur adipisicing elit.",
         coverUrl: "https://fakeimg.pl/600/1e3a8a/fff?text=Cover&font=lobster"
     },
     {
-        classes:'hidden 2xl:block',
+        classes: 'hidden 2xl:block',
         title: "Playlist title 5",
         description: "Lorem, ipsum dolor sit amet consectetur adipisicing elit.",
         coverUrl: "https://fakeimg.pl/600/365314/fff?text=Cover&font=lobster"
     },
     {
-        classes:'hidden 3xl:block',
+        classes: 'hidden 3xl:block',
         title: "Playlist title 6",
         description: "Lorem, ipsum dolor sit amet consectetur adipisicing elit.",
         coverUrl: "https://fakeimg.pl/600/164e63/fff?text=Cover&font=lobster"
     },
     {
-        classes:'hidden 4xl:block',
+        classes: 'hidden 4xl:block',
         title: "Playlist title 7",
         description: "Lorem, ipsum dolor sit amet consectetur adipisicing elit.",
         coverUrl: "https://fakeimg.pl/600/164e63/fff?text=Cover&font=lobster"
     },
     {
-        classes:'hidden 5xl:block',
+        classes: 'hidden 5xl:block',
         title: "Playlist title 8",
         description: "Lorem, ipsum dolor sit amet consectetur adipisicing elit.",
         coverUrl: "https://fakeimg.pl/600/1e3a8a/fff?text=Cover&font=lobster"
     },
     {
-        classes:'hidden 6xl:block',
+        classes: 'hidden 6xl:block',
         title: "Playlist title 9",
         description: "Lorem, ipsum dolor sit amet consectetur adipisicing elit.",
         coverUrl: "https://fakeimg.pl/600/365314/fff?text=Cover&font=lobster"
     },
 ]
 
-const TheMain = ({toggleScrolling,showToast,showPopover}) => {
+const TheMain = ({toggleScrolling, showToast}) => {
     return (
         <main className="text-white relative">
             <div className="h-[275px] bg-gradient-to-b from-[#1f1f1f] to-[#121212] absolute w-full"></div>
@@ -80,7 +80,6 @@ const TheMain = ({toggleScrolling,showToast,showPopover}) => {
                             <PlayList
                                 key={playlist.title}
                                 {...playlist}
-                                showPopover={showPopover}
                                 showToast={showToast}
                                 toggleScrolling={toggleScrolling}
                             />

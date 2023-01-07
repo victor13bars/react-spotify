@@ -1,13 +1,14 @@
-import React from 'react';
+import React, {useRef} from 'react';
 
 const NavItem = ({classes, icon, children: label, onClick}) => {
 
+    const labelRef = useRef()
     const handleClick = (event) => {
 
         if (!onClick) return
 
         event.preventDefault()
-        onClick(event.currentTarget)
+        onClick(labelRef.current)
 
     }
 
@@ -18,7 +19,7 @@ const NavItem = ({classes, icon, children: label, onClick}) => {
             onClick={handleClick}
         >
             {icon}
-            <span className="ml-4 text-sm font-semibold">{label}</span>
+            <span ref={labelRef} className="ml-4 text-sm font-semibold">{label}</span>
         </a>
     );
 };
