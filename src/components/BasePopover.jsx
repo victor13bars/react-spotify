@@ -3,17 +3,22 @@ import BaseButton from "./BaseButton";
 import {useImperativeHandle} from "react";
 import BasePopoverTriangle from "./BasePopoverTriangle";
 
-const isSmallScreen = window.innerWidth < 900
-const translateClass = isSmallScreen ? 'translate-y-1' : 'translate-x-1'
-const HIDDEN_CLASSES = `opacity-0 ${translateClass} pointer-events-none`
+const MIN_DESKTOP_WIDTH = 900
 
 const BasePopover = (_, ref) => {
 
+    const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < MIN_DESKTOP_WIDTH)
     const nodeRef = useRef()
-    const [classes, setClasses] = useState(HIDDEN_CLASSES)
+    const [classes, setClasses] = useState(getHiddenClasses)
     const [title, setTitle] = useState('')
     const [target, setTarget] = useState()
     const [description, setDescription] = useState('')
+
+    function getHiddenClasses() {
+        const translateClass = isSmallScreen ? 'translate-y-1' : 'translate-x-1'
+
+        return `opacity-0 ${translateClass} pointer-events-none`
+    }
 
     const show = (title, description, nextTarget, offset) => {
 
@@ -28,7 +33,7 @@ const BasePopover = (_, ref) => {
 
     const hide = () => {
         setTarget(null)
-        setClasses(HIDDEN_CLASSES)
+        setClasses(getHiddenClasses)
     }
 
     const moveTo = (offset) => {
@@ -47,22 +52,24 @@ const BasePopover = (_, ref) => {
     }
 
     const screenHasBecomeSmall = () => {
-        return window.innerWidth < 900 && !isSmallScreen
+        return window.innerWidth < MIN_DESKTOP_WIDTH && !isSmallScreen
     }
 
     const screenHasBecomeWide = () => {
-        return window.innerWidth >= 900 && isSmallScreen
+        return window.innerWidth >= MIN_DESKTOP_WIDTH && isSmallScreen
     }
 
     useEffect(() => {
-        if (!target) return
 
         const handleResize = () => {
-            if (screenHasBecomeSmall() || screenHasBecomeWide()) hide()
+            if (screenHasBecomeSmall() || screenHasBecomeWide()) {
+                hide()
+                setIsSmallScreen(window.innerWidth < MIN_DESKTOP_WIDTH)
+            }
         }
 
         const handleClickAway = (event) => {
-            if (target.parentNode.contains(event.target)) return
+            if (target && target.parentNode.contains(event.target)) return
             if (!nodeRef.current.contains(event.target)) hide()
         }
 
