@@ -16,7 +16,7 @@ const BasePopover = (_, ref) => {
 
         if (target === nextTarget) return
 
-        moveTo(nextTarget, offset)
+        moveTo(offset ? offset : calculateTargetOffset(nextTarget))
         setTarget(nextTarget)
         setTitle(title)
         setDescription(description)
@@ -28,19 +28,18 @@ const BasePopover = (_, ref) => {
         setClasses(HIDDEN_CLASSES)
     }
 
-    const moveTo = (target, offset) => {
-
-        if (!offset) {
-            const {top, right, height} = target.getBoundingClientRect()
-
-            offset = {
-                top: top - (height / 3) * 2,
-                left: right + 30
-            }
-        }
-
+    const moveTo = (offset) => {
         nodeRef.current.style.top = `${offset.top}px`
         nodeRef.current.style.left = `${offset.left}px`
+    }
+
+    const calculateTargetOffset = (target) => {
+        const {top, right, height} = target.getBoundingClientRect()
+
+        return {
+            top: top - (height / 3) * 2,
+            left: right + 30
+        }
     }
 
     useEffect(() => {
