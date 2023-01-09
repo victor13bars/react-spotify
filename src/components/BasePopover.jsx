@@ -2,7 +2,9 @@ import React, {forwardRef, useEffect, useRef, useState} from 'react';
 import BaseButton from "./BaseButton";
 import {useImperativeHandle} from "react";
 
-const HIDDEN_CLASSES = 'opacity-0 translate-x-1 pointer-events-none'
+const isSmallScreen = window.innerWidth < 700
+const translateClass = isSmallScreen ? 'translate-y-1' : 'translate-x-1'
+const HIDDEN_CLASSES = `opacity-0 ${translateClass} pointer-events-none`
 
 const BasePopover = (_, ref) => {
 
@@ -34,11 +36,12 @@ const BasePopover = (_, ref) => {
     }
 
     const calculateTargetOffset = (target) => {
-        const {top, right, height} = target.getBoundingClientRect()
+        const {top, right, left, height} = target.getBoundingClientRect()
+
 
         return {
-            top: top - (height / 3) * 2,
-            left: right + 30
+            top: isSmallScreen ? top + height * 2 : top - (height / 3) * 2,
+            left: isSmallScreen ? left : right + 30
         }
     }
 
