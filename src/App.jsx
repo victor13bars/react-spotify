@@ -30,8 +30,8 @@ const App = () => {
         toastRef.current.show(message)
     }
 
-    const showPopover = (title, description, target) => {
-        popoverRef.current.show(title, description, target)
+    const showPopover = (title, description, target, offset) => {
+        popoverRef.current.show(title, description, target, offset)
     }
 
     useEffect(() => {

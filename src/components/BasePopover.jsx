@@ -9,24 +9,34 @@ const BasePopover = (_, ref) => {
     const nodeRef = useRef()
     const [classes, setClasses] = useState(HIDDEN_CLASSES)
     const [title, setTitle] = useState('')
+    const [target, setTarget] = useState()
     const [description, setDescription] = useState('')
 
-    const show = (title, description, target) => {
-        moveTo(target)
+    const show = (title, description, nextTarget, offset) => {
+
+        if (target === nextTarget) return
+
+        moveTo(nextTarget, offset)
+        setTarget(nextTarget)
         setTitle(title)
         setDescription(description)
         setClasses('')
     }
+
     const hide = () => {
+        setTarget(null)
         setClasses(HIDDEN_CLASSES)
     }
 
-    const moveTo = (target) => {
-        const offset = target
-        if (target instanceof Element) {
+    const moveTo = (target, offset) => {
+
+        if (!offset) {
             const {top, right, height} = target.getBoundingClientRect()
-            offset.top = top - (height / 3) * 2
-            offset.left = right + 30
+
+            offset = {
+                top: top - (height / 3) * 2,
+                left: right + 30
+            }
         }
 
         nodeRef.current.style.top = `${offset.top}px`
@@ -34,9 +44,11 @@ const BasePopover = (_, ref) => {
     }
 
     useEffect(() => {
+        if (!target) return
 
-        const handleClickAway = ({target}) => {
-            if (!nodeRef.current.contains(target)) hide()
+        const handleClickAway = (event) => {
+            if (target.parentNode.contains(event.target)) return
+            if (!nodeRef.current.contains(event.target)) hide()
         }
 
         document.addEventListener('mousedown', handleClickAway)
