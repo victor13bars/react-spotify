@@ -3,7 +3,7 @@ import BaseButton from "./BaseButton";
 import {useImperativeHandle} from "react";
 import BasePopoverTriangle from "./BasePopoverTriangle";
 
-const isSmallScreen = window.innerWidth < 700
+const isSmallScreen = window.innerWidth < 900
 const translateClass = isSmallScreen ? 'translate-y-1' : 'translate-x-1'
 const HIDDEN_CLASSES = `opacity-0 ${translateClass} pointer-events-none`
 
@@ -46,17 +46,33 @@ const BasePopover = (_, ref) => {
         }
     }
 
+    const screenHasBecomeSmall = () => {
+        return window.innerWidth < 900 && !isSmallScreen
+    }
+
+    const screenHasBecomeWide = () => {
+        return window.innerWidth >= 900 && isSmallScreen
+    }
+
     useEffect(() => {
         if (!target) return
+
+        const handleResize = () => {
+            if (screenHasBecomeSmall() || screenHasBecomeWide()) hide()
+        }
 
         const handleClickAway = (event) => {
             if (target.parentNode.contains(event.target)) return
             if (!nodeRef.current.contains(event.target)) hide()
         }
 
+        window.addEventListener('resize', handleResize)
         document.addEventListener('mousedown', handleClickAway)
 
-        return () => document.removeEventListener('mousedown', handleClickAway)
+        return () => {
+            window.removeEventListener('resize', handleResize)
+            document.removeEventListener('mousedown', handleClickAway)
+        }
 
     })
 

@@ -1,7 +1,7 @@
 import React from 'react';
 
 const BasePopoverTriangle = () => {
-    const isSmallScreen = window.innerWidth < 700
+    const isSmallScreen = window.innerWidth < 900
     return (
         isSmallScreen
             ?
