@@ -2,6 +2,7 @@ import React, {forwardRef, useEffect, useRef, useState} from 'react';
 import BaseButton from "./BaseButton";
 import {useImperativeHandle} from "react";
 import BasePopoverTriangle from "./BasePopoverTriangle";
+import {debounce} from '../utils'
 
 const MIN_DESKTOP_WIDTH = 900
 
@@ -14,7 +15,6 @@ const BasePopover = (_, ref) => {
     const [target, setTarget] = useState()
     const [description, setDescription] = useState('')
     const changeWidthTimer = useRef()
-    const resizeTimer = useRef()
 
     function getHiddenClasses() {
         const translateClass = isSmallScreen ? 'translate-y-1' : 'translate-x-1'
@@ -80,12 +80,7 @@ const BasePopover = (_, ref) => {
             if (!nodeRef.current.contains(event.target)) hide()
         }
 
-        const debounce = (callback) => {
-            clearTimeout(resizeTimer.current)
-            resizeTimer.current = setTimeout(callback, 300)
-        }
-
-        const debounceResize = debounce.bind(null, handleResize)
+        const debounceResize = debounce.bind(null, handleResize, 300)
 
         window.addEventListener('resize', debounceResize)
         document.addEventListener('mousedown', handleClickAway)
