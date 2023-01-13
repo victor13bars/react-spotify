@@ -1,7 +1,8 @@
-import React, {forwardRef, useEffect, useImperativeHandle, useRef, useState} from 'react';
+import React, {forwardRef, useImperativeHandle, useRef, useState} from 'react';
 import BaseButton from "./BaseButton";
 import BasePopoverTriangle from "./BasePopoverTriangle";
 import usePopoverPosition from "../hooks/usePopoverPosition";
+import useClickAway from "../hooks/useClickAway";
 
 const BasePopover = (_, ref) => {
 
@@ -9,6 +10,7 @@ const BasePopover = (_, ref) => {
     const [title, setTitle] = useState('')
     const [description, setDescription] = useState('')
     const {move, target, setTarget, isSmallScreen} = usePopoverPosition(nodeRef, hide)
+    useClickAway(nodeRef, hide, shouldPreventHiding)
     const [classes, setClasses] = useState(getHiddenClasses)
 
     function getHiddenClasses() {
@@ -32,18 +34,9 @@ const BasePopover = (_, ref) => {
         setClasses(getHiddenClasses)
     }
 
-    useEffect(() => {
-
-        const handleClickAway = (event) => {
-            if (target && target.parentNode.contains(event.target)) return
-            if (!nodeRef.current.contains(event.target)) hide()
-        }
-
-        document.addEventListener('mousedown', handleClickAway)
-
-        return () => document.removeEventListener('mousedown', handleClickAway)
-
-    })
+    function shouldPreventHiding(event) {
+        return target && target.parentNode.contains(event.target)
+    }
 
     useImperativeHandle(ref, () => ({show}))
 
