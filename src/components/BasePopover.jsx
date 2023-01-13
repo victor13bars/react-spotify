@@ -14,6 +14,7 @@ const BasePopover = (_, ref) => {
     const [target, setTarget] = useState()
     const [description, setDescription] = useState('')
     const changeWidthTimer = useRef()
+    const resizeTimer = useRef()
 
     function getHiddenClasses() {
         const translateClass = isSmallScreen ? 'translate-y-1' : 'translate-x-1'
@@ -79,11 +80,18 @@ const BasePopover = (_, ref) => {
             if (!nodeRef.current.contains(event.target)) hide()
         }
 
-        window.addEventListener('resize', handleResize)
+        const debounce = (callback) => {
+            clearTimeout(resizeTimer.current)
+            resizeTimer.current = setTimeout(callback, 300)
+        }
+
+        const debounceResize = debounce.bind(null, handleResize)
+
+        window.addEventListener('resize', debounceResize)
         document.addEventListener('mousedown', handleClickAway)
 
         return () => {
-            window.removeEventListener('resize', handleResize)
+            window.removeEventListener('resize', debounceResize)
             document.removeEventListener('mousedown', handleClickAway)
         }
 
