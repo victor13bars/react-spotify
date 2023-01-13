@@ -2,13 +2,19 @@ import React, {forwardRef, useEffect, useRef, useState} from 'react';
 import BaseButton from "./BaseButton";
 import {useImperativeHandle} from "react";
 import BasePopoverTriangle from "./BasePopoverTriangle";
-import {debounce} from '../utils'
+import {debounce, MIN_DESKTOP_WIDTH} from '../utils'
 
-const MIN_DESKTOP_WIDTH = 900
+const isCurrentWindowWidthSmall = () => {
+    return window.innerWidth < MIN_DESKTOP_WIDTH
+}
+
+const isCurrentWindowWidthBig = () => {
+    return window.innerWidth >= MIN_DESKTOP_WIDTH
+}
 
 const BasePopover = (_, ref) => {
 
-    const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < MIN_DESKTOP_WIDTH)
+    const [isSmallScreen, setIsSmallScreen] = useState(isCurrentWindowWidthSmall)
     const nodeRef = useRef()
     const [classes, setClasses] = useState(getHiddenClasses)
     const [title, setTitle] = useState('')
@@ -38,9 +44,9 @@ const BasePopover = (_, ref) => {
         setClasses(getHiddenClasses)
     }
 
-    const moveTo = (offset) => {
-        nodeRef.current.style.top = `${offset.top}px`
-        nodeRef.current.style.left = `${offset.left}px`
+    const moveTo = ({top, left}) => {
+        nodeRef.current.style.top = `${top}px`
+        nodeRef.current.style.left = `${left}px`
     }
 
     const calculateTargetOffset = (target) => {
@@ -54,25 +60,25 @@ const BasePopover = (_, ref) => {
     }
 
     const screenHasBecomeSmall = () => {
-        return window.innerWidth < MIN_DESKTOP_WIDTH && !isSmallScreen
+        return isCurrentWindowWidthSmall() && !isSmallScreen
     }
 
-    const screenHasBecomeWide = () => {
-        return window.innerWidth >= MIN_DESKTOP_WIDTH && isSmallScreen
+    const screenHasBecomeBig = () => {
+        return isCurrentWindowWidthBig() && isSmallScreen
     }
 
     useEffect(() => {
 
         const handleResize = () => {
-            if (screenHasBecomeSmall() || screenHasBecomeWide()) {
-                hide()
+            if (!screenHasBecomeSmall() && !screenHasBecomeBig()) return
 
-                clearTimeout(changeWidthTimer.current)
-                changeWidthTimer.current = setTimeout(
-                    () => setIsSmallScreen(window.innerWidth < MIN_DESKTOP_WIDTH),
-                    300
-                )
-            }
+            hide()
+            clearTimeout(changeWidthTimer.current)
+
+            changeWidthTimer.current = setTimeout(
+                () => setIsSmallScreen(isCurrentWindowWidthSmall),
+                300
+            )
         }
 
         const handleClickAway = (event) => {
