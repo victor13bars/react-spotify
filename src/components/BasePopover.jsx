@@ -13,6 +13,7 @@ const BasePopover = (_, ref) => {
     const [title, setTitle] = useState('')
     const [target, setTarget] = useState()
     const [description, setDescription] = useState('')
+    const changeWidthTimer = useRef()
 
     function getHiddenClasses() {
         const translateClass = isSmallScreen ? 'translate-y-1' : 'translate-x-1'
@@ -64,7 +65,12 @@ const BasePopover = (_, ref) => {
         const handleResize = () => {
             if (screenHasBecomeSmall() || screenHasBecomeWide()) {
                 hide()
-                setIsSmallScreen(window.innerWidth < MIN_DESKTOP_WIDTH)
+
+                clearTimeout(changeWidthTimer.current)
+                changeWidthTimer.current = setTimeout(
+                    () => setIsSmallScreen(window.innerWidth < MIN_DESKTOP_WIDTH),
+                    300
+                )
             }
         }
 
@@ -89,14 +95,14 @@ const BasePopover = (_, ref) => {
         <div
             ref={nodeRef}
             className={`fixed z-30 bg-[#0e72ea] text-white tracking-wide
-             rounded-lg shadow-3xl p-4 w-[330px] transition duration-3000 select-none ${classes}`}>
+             rounded-lg shadow-3xl p-4 w-[330px] transition duration-300 select-none ${classes}`}>
             <h3 className="text-lg font-bold mb-2">{title}</h3>
             <p className="text-xs">{description}</p>
             <div className="mt-6 text-right">
                 <BaseButton onClick={hide}>Not now</BaseButton>
                 <BaseButton primary>Log in</BaseButton>
             </div>
-            <BasePopoverTriangle/>
+            <BasePopoverTriangle side={isSmallScreen ? 'top' : 'left'}/>
         </div>
     );
 };
