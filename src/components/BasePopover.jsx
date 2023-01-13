@@ -3,6 +3,8 @@ import BaseButton from "./BaseButton";
 import {useImperativeHandle} from "react";
 import BasePopoverTriangle from "./BasePopoverTriangle";
 import {debounce, MIN_DESKTOP_WIDTH} from '../utils'
+import usePopoverPosition from "../hooks/usePopoverPosition";
+
 
 const isCurrentWindowWidthSmall = () => {
     return window.innerWidth < MIN_DESKTOP_WIDTH
@@ -21,6 +23,7 @@ const BasePopover = (_, ref) => {
     const [target, setTarget] = useState()
     const [description, setDescription] = useState('')
     const changeWidthTimer = useRef()
+    const move = usePopoverPosition(nodeRef, isSmallScreen)
 
     function getHiddenClasses() {
         const translateClass = isSmallScreen ? 'translate-y-1' : 'translate-x-1'
@@ -32,7 +35,7 @@ const BasePopover = (_, ref) => {
 
         if (target === nextTarget) return
 
-        moveTo(offset ? offset : calculateTargetOffset(nextTarget))
+        move(nextTarget, offset)
         setTarget(nextTarget)
         setTitle(title)
         setDescription(description)
@@ -42,21 +45,6 @@ const BasePopover = (_, ref) => {
     const hide = () => {
         setTarget(null)
         setClasses(getHiddenClasses)
-    }
-
-    const moveTo = ({top, left}) => {
-        nodeRef.current.style.top = `${top}px`
-        nodeRef.current.style.left = `${left}px`
-    }
-
-    const calculateTargetOffset = (target) => {
-        const {top, right, left, height} = target.getBoundingClientRect()
-
-
-        return {
-            top: isSmallScreen ? top + height * 2 : top - (height / 3) * 2,
-            left: isSmallScreen ? left : right + 30
-        }
     }
 
     const screenHasBecomeSmall = () => {
