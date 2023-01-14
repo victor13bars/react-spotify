@@ -1,6 +1,6 @@
 import {useEffect} from "react";
 
-const useClickAway = (ref, handle, shouldHandle = () => false) => {
+const useClickAway = (ref, handle, shouldHandle = () => true) => {
 
     useEffect(() => {
 
