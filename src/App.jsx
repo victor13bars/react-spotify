@@ -6,6 +6,7 @@ import TheMain from "./components/TheMain";
 import TheRegistration from "./components/TheRegistration";
 import BaseToast from "./components/BaseToast";
 import BasePopover from "./components/BasePopover";
+import BaseModal from "./components/BaseModal";
 
 const App = () => {
 
@@ -57,6 +58,7 @@ const App = () => {
             <TheRegistration/>
             <BaseToast ref={toastRef}/>
             <BasePopover ref={popoverRef}/>
+            <BaseModal/>
         </>
     )
 }
