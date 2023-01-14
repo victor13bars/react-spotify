@@ -7,7 +7,7 @@ const BaseButton = ({primary, children: label, classes, onClick: handleClick}) =
     return (
         <button
             onClick={handleClick}
-            className={`font-semibold leading-5 py-[9px] px-[17px]
+            className={`font-semibold leading-5 py-[14px] px-[17px]
              sm:px-[38px] rounded-full hover:scale-105 ${typeClasses} ${classes}`}
         >
             {label}
