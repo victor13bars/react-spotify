@@ -12,7 +12,8 @@ const PlayList = ({
                       description,
                       classes,
                       toggleScrolling,
-                      showToast
+                      showToast,
+                      openModal
                   }) => {
 
     const generateMenuItems = (isAlternate = false) => {
@@ -43,7 +44,11 @@ const PlayList = ({
                 ]
             },
             {
-                label: 'About recommendations'
+                label: 'About recommendations',
+                action: () => {
+                    menu.close()
+                    openModal()
+                }
             },
             {
                 label: 'Open in Desktop app'

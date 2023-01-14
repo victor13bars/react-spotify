@@ -1,4 +1,4 @@
-import React, {useEffect, useRef} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import TheSidebar from "./components/TheSidebar";
 import TheSidebarOverlay from "./components/TheSidebarOverlay";
 import TheHeader from "./components/TheHeader";
@@ -10,6 +10,7 @@ import BaseModal from "./components/BaseModal";
 
 const App = () => {
 
+    const [isModalOpen, setIsModalOpen] = useState()
     const popoverRef = useRef()
     const toastRef = useRef()
 
@@ -35,6 +36,14 @@ const App = () => {
         popoverRef.current.show(title, description, target, offset)
     }
 
+    const openModal = () => {
+        setIsModalOpen(true)
+    }
+
+    const closeModal = () => {
+        setIsModalOpen(false)
+    }
+
     useEffect(() => {
         const contentWrapper = contentWrapperRef.current
         contentWrapper.addEventListener('wheel', handleScrolling)
@@ -52,13 +61,14 @@ const App = () => {
                     <TheMain
                         toggleScrolling={toggleScrolling}
                         showToast={showToast}
+                        openModal={openModal}
                     />
                 </div>
             </div>
             <TheRegistration/>
             <BaseToast ref={toastRef}/>
             <BasePopover ref={popoverRef}/>
-            <BaseModal/>
+            {isModalOpen && <BaseModal onClose={closeModal}/>}
         </>
     )
 }
