@@ -10,7 +10,7 @@ const BasePopover = (_, ref) => {
     const [title, setTitle] = useState('')
     const [description, setDescription] = useState('')
     const {move, target, setTarget, isSmallScreen} = usePopoverPosition(nodeRef, hide)
-    useClickAway(nodeRef, hide, shouldPreventHiding)
+    useClickAway(nodeRef, hide, shouldHide)
     const [classes, setClasses] = useState(getHiddenClasses)
 
     function getHiddenClasses() {
@@ -34,8 +34,8 @@ const BasePopover = (_, ref) => {
         setClasses(getHiddenClasses)
     }
 
-    function shouldPreventHiding(event) {
-        return target && target.parentNode.contains(event.target)
+    function shouldHide(event) {
+        return !target?.parentNode.contains(event.target)
     }
 
     useImperativeHandle(ref, () => ({show}))

@@ -1,17 +1,16 @@
 import {useEffect} from "react";
 
-const useClickAway = (ref, close, shouldPreventClosing = () => false) => {
+const useClickAway = (ref, handle, shouldHandle = () => false) => {
 
     useEffect(() => {
 
-        const handleClickAway = (event) => {
-            if (shouldPreventClosing(event)) return
-            if (!ref.current.contains(event.target)) close()
+        const handleMousedown = (event) => {
+            if (shouldHandle(event) && !ref.current.contains(event.target)) handle()
         }
 
-        document.addEventListener('mousedown', handleClickAway)
+        document.addEventListener('mousedown', handleMousedown)
 
-        return () => document.removeEventListener('mousedown', handleClickAway)
+        return () => document.removeEventListener('mousedown', handleMousedown)
 
     })
 
