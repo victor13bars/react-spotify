@@ -8,10 +8,7 @@ const BaseModal = ({onClose: handleClose}) => {
 
     useEffect(() => {
 
-        setTimeout(() => {
-            ref.current.classList.remove('opacity-0')
-            contentRef.current.classList.remove('-translate-y-10')
-        }, 500)
+        setTimeout(animate, 500)
 
         const handleEsc = ({key}) => {
             if (key === 'Escape') close()
@@ -23,10 +20,14 @@ const BaseModal = ({onClose: handleClose}) => {
     })
 
     const close = () => {
-        ref.current.classList.add('opacity-0')
-        contentRef.current.classList.add('-translate-y-10')
+        animate(true)
 
-        setTimeout(handleClose,500)
+        setTimeout(handleClose, 500)
+    }
+
+    const animate = (isClosing = false) => {
+        ref.current.classList.toggle('opacity-0',isClosing)
+        contentRef.current.classList.toggle('-translate-y-10',isClosing)
     }
 
     return (
