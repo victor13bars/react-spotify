@@ -6,6 +6,8 @@ const useEvent = (name, handler, shouldHandler = () => true, target = document) 
 
         if (!shouldHandler()) return
 
+        target = target instanceof Function ? target() : target
+
         target.addEventListener(name, handler)
 
         return () => target.removeEventListener(name, handler)
