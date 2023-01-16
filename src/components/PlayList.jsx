@@ -1,4 +1,4 @@
-import React, {useEffect, useLayoutEffect, useState} from 'react';
+import React, {useLayoutEffect, useState} from 'react';
 import useMenu from "../hooks/useContextMenu";
 import PlayListContextMenu from "./PlayListContextMenu";
 import PlayListCover from "./PlayListCover";
@@ -77,12 +77,6 @@ const PlayList = ({
 
     useEvent('keydown', handleAltKeydown, () => menu.isOpen)
     useEvent('keyup', handleAltKeyup, () => menu.isOpen)
-
-    useEffect(() => {
-
-        if (!menu.isOpen) return
-
-    })
 
     return (
         <a
