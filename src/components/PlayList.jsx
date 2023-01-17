@@ -75,8 +75,8 @@ const PlayList = ({
         toggleScrolling(!menu.isOpen)
     })
 
-    useEvent('keydown', handleAltKeydown, () => menu.isOpen)
-    useEvent('keyup', handleAltKeyup, () => menu.isOpen)
+    useEvent('keydown', handleAltKeydown, menu.isOpen)
+    useEvent('keyup', handleAltKeyup, menu.isOpen)
 
     return (
         <a

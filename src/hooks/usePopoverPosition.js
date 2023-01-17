@@ -56,7 +56,7 @@ const usePopoverPosition = (ref, screenChangeCallback) => {
 
     const debounceResize = debounce.bind(null, handleResize, 300)
 
-    useEvent('resize', debounceResize, () => true, window)
+    useEvent('resize', debounceResize, true, window)
 
     return {
         move, target, setTarget, isSmallScreen

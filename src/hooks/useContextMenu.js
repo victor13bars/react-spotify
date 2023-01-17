@@ -26,9 +26,9 @@ const useContextMenu = (items) => {
         }
     }
 
-    useClickAway(ref, close, () => isOpen)
+    useClickAway(ref, close, isOpen)
 
-    useEvent('keydown', handleEsc, () => isOpen)
+    useEvent('keydown', handleEsc, isOpen)
 
     return {
         open,

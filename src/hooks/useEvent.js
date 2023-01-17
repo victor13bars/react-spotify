@@ -1,16 +1,18 @@
 import {useEffect} from "react";
 
-const useEvent = (name, handler, shouldHandler = () => true, target = document) => {
+const useEvent = (name, handler, shouldHandler = true, target = document) => {
 
     useEffect(() => {
 
-        if (!shouldHandler()) return
+        const handle = shouldHandler instanceof Function ? shouldHandler() : shouldHandler
 
-        target = target instanceof Function ? target() : target
+        if (!handle) return
 
-        target.addEventListener(name, handler)
+        const node = target instanceof Function ? target() : target
 
-        return () => target.removeEventListener(name, handler)
+        node.addEventListener(name, handler)
+
+        return () => node.removeEventListener(name, handler)
     })
 
 }

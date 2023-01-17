@@ -14,8 +14,8 @@ const App = () => {
     const [isModalOpen, setIsModalOpen] = useState()
     const popoverRef = useRef()
     const toastRef = useRef()
-
     const contentWrapperRef = useRef()
+
     let isScrollingEnabled = true
 
     const handleScrolling = (event) => {
@@ -48,7 +48,7 @@ const App = () => {
     useEvent(
         'wheel',
         handleScrolling,
-        () => true,
+        true,
         () => contentWrapperRef.current
     )
 
