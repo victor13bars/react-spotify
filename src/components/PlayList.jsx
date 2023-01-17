@@ -6,6 +6,7 @@ import PlayListButtonPlay from "./PlayListButtonPlay";
 import PlayListTitle from "./PlayListTitle";
 import PlayListDescription from "./PlayListDescription";
 import useEvent from "../hooks/useEvent";
+import BaseModal from "./BaseModal";
 
 const PlayList = ({
                       coverUrl,
@@ -14,7 +15,6 @@ const PlayList = ({
                       classes,
                       toggleScrolling,
                       showToast,
-                      openModal
                   }) => {
 
     const generateMenuItems = (isAlternate = false) => {
@@ -57,11 +57,20 @@ const PlayList = ({
         ]
     }
 
+    const [isModalOpen, setIsModalOpen] = useState()
     const [menuItems, setMenuItems] = useState(generateMenuItems)
     const menu = useMenu(menuItems)
     const bgClasses = menu.isOpen
         ? 'bg-[#272727]'
         : 'bg-[#181818] hover:bg-[#272727]'
+
+    const openModal = () => {
+        setIsModalOpen(true)
+    }
+
+    const closeModal = () => {
+        setIsModalOpen(false)
+    }
 
     const handleAltKeydown = ({key}) => {
         if (key === 'Alt') setMenuItems(generateMenuItems(true))
@@ -100,6 +109,8 @@ const PlayList = ({
                     classes="fixed divide-y divide-[#3e3e3e]"
                 />
             }
+
+            {isModalOpen && <BaseModal onClose={closeModal}/>}
         </a>
     );
 };

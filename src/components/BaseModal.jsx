@@ -1,3 +1,4 @@
+import ReactDOM from "react-dom";
 import React, {useEffect, useRef} from 'react';
 import {XMarkIcon} from '@heroicons/react/24/outline'
 import useEvent from "../hooks/useEvent";
@@ -29,7 +30,7 @@ const BaseModal = ({onClose: handleClose}) => {
     useEvent('keydown', handleEsc)
 
 
-    return (
+    return ReactDOM.createPortal(
         <div
             className='fixed inset-0 bg-black/70 z-30 flex justify-center items-center opacity-0 transition-opacity duration-500'
             role='dialog'
@@ -63,8 +64,9 @@ const BaseModal = ({onClose: handleClose}) => {
                     molestiae obcaecati placeat veritatis vero, voluptates?
                 </div>
             </div>
-        </div>
-    );
+        </div>,
+        document.body
+    )
 };
 
 export default BaseModal;
