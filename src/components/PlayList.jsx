@@ -7,6 +7,7 @@ import PlayListTitle from "./PlayListTitle";
 import PlayListDescription from "./PlayListDescription";
 import useEvent from "../hooks/useEvent";
 import BaseModal from "./BaseModal";
+import TheModalRecommendations from "./TheModalRecommendations";
 
 const PlayList = ({
                       coverUrl,
@@ -110,7 +111,10 @@ const PlayList = ({
                 />
             }
 
-            {isModalOpen && <BaseModal onClose={closeModal}/>}
+            {
+                isModalOpen && (<TheModalRecommendations onClose={closeModal}/>)
+
+            }
         </a>
     );
 };
