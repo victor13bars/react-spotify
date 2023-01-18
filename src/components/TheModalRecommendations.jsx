@@ -3,7 +3,10 @@ import BaseModal from "./BaseModal";
 
 const TheModalRecommendations = ({onClose: handleClose}) => {
     return (
-        <BaseModal onClose={handleClose}>
+        <BaseModal
+            classes='bg-[#333] h-80 w-[480px]'
+            onClose={handleClose}
+        >
             <h1 className='text-3xl pt-8 pb-3 px-8 font-bold leading-relaxed border-b border-neutral-600'>
                 About recommendations
             </h1>
