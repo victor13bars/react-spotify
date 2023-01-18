@@ -19,7 +19,7 @@ const TheModalEmbedPlaylist = ({onClose: handleClose}) => {
                 . Ex fugiat minus, quia recusandae sequi voluptatibus.
             </div>
             <div className="text-right pb-6 px-8">
-                <BaseButton primary>Copy</BaseButton>
+                <BaseButton accent>Copy</BaseButton>
             </div>
         </BaseModal>
     );
