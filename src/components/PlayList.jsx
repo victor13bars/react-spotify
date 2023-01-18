@@ -8,6 +8,7 @@ import PlayListDescription from "./PlayListDescription";
 import useEvent from "../hooks/useEvent";
 import TheModalRecommendations from "./TheModalRecommendations";
 import useModal from "../hooks/useModal";
+import TheModalEmbedPlaylist from "./TheModalEmbedPlaylist";
 
 const PlayList = ({
                       coverUrl,
@@ -41,7 +42,11 @@ const PlayList = ({
                         }
                     },
                     {
-                        label: 'Embed playlist'
+                        label: 'Embed playlist',
+                        action: () => {
+                            menu.close()
+                            embedPlaylistModal.open()
+                        }
                     }
                 ]
             },
@@ -49,7 +54,7 @@ const PlayList = ({
                 label: 'About recommendations',
                 action: () => {
                     menu.close()
-                    modal.open()
+                    recommendationModal.open()
                 }
             },
             {
@@ -58,7 +63,8 @@ const PlayList = ({
         ]
     }
 
-    const modal = useModal()
+    const embedPlaylistModal = useModal()
+    const recommendationModal = useModal()
     const [menuItems, setMenuItems] = useState(generateMenuItems)
     const menu = useMenu(menuItems)
     const bgClasses = menu.isOpen
@@ -103,10 +109,12 @@ const PlayList = ({
                 />
             }
 
-            {
-                modal.isOpen && (<TheModalRecommendations onClose={modal.close}/>)
-
-            }
+            {recommendationModal.isOpen && (
+                <TheModalRecommendations onClose={recommendationModal.close}/>
+            )}
+            {embedPlaylistModal.isOpen && (
+                <TheModalEmbedPlaylist onClose={embedPlaylistModal.close}/>
+            )}
         </a>
     );
 };
